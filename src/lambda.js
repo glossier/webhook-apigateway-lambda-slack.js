@@ -16,7 +16,7 @@
 exports.handler = function (event, context, callback) {
 
   // The body of the entity (Entry / ContentType).
-  const body = event.body;
+  const body = event;
   const id = body.sys.id;
   const spaceId = body.sys.space.sys.id;
   // The type of the entity (Entry / ContentType).
@@ -29,11 +29,11 @@ exports.handler = function (event, context, callback) {
   }
 
   // The URL of your incoming webhook at slack,
-  const slackURL = 'UrlOfYourIncomingWebhookAtSlack';
+  const slackURL = process.env.SLACK_URL;
   // URL pattern of the CMA endpoint.
   const cmaURL = `https://api.contentful.com/spaces/${spaceId}/`;
   // A valid content management token.
-  const cmaToken = 'ManagementTokenWithAccessToTheSpace';
+  const cmaToken = process.env.CMA_TOKEN;
 
   // Maps URL fragments to types.
   const typeUrlMap = {
@@ -48,8 +48,7 @@ exports.handler = function (event, context, callback) {
   // Message template following the slack specification:
   // https://api.slack.com/docs/formatting
   var slackMessageTemplate = {
-    "channel": "#contenthooks",
-    "username": `Webhook: ${event.name}`,
+    "username": "Webhook: Glossier",
     "icon_emoji": ":contentful:",
     "attachments": [{
       "fallback": "",
